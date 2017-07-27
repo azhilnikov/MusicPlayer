@@ -60,7 +60,7 @@ extension MusicPlayerViewController: UISearchBarDelegate {
         guard let artistName = searchBar.text else { return }
         searchController.isActive = false
         
-        self.dataProvider.fetch(artistName.replacingOccurrences(of: " ", with: "+")) {
+        self.dataProvider.fetch(artistName) {
             [weak self] (result) in
             switch result {
             case .success:

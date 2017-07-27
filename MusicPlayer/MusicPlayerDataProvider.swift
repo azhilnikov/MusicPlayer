@@ -29,14 +29,13 @@ class MusicPlayerDataProvider: NSObject {
         musicPlayer.stop(shouldPause: false)
         delegate?.didFinishPlaying()
         
-        let artistName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? name
         let service = MusicPlayerAPIService()
         
         // Clear previos data
         cellDataProvider.clear()
         lastSelectedRow = nil
         
-        service.fetch(artistName) { [weak self] (data, result) in
+        service.fetch(name) { [weak self] (data, result) in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
@@ -80,6 +79,7 @@ extension MusicPlayerDataProvider: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "MusicPlayerCell",
                                                     for: indexPath) as? MusicPlayerTableViewCell {
             let record = cellDataProvider[indexPath.row]
@@ -105,6 +105,7 @@ extension MusicPlayerDataProvider: UITableViewDataSource, UITableViewDelegate {
             }
             return cell
         }
+        
         return UITableViewCell()
     }
     
